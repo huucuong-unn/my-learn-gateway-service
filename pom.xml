@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.2.1</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+  <groupId>com.mylearn</groupId>
+  <artifactId>my-learn-gateway-service</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>MyLearn API Gateway</name>
+  <description>Central entry point for routing and authentication.</description>
+
+  <properties>
+    <java.version>21</java.version>
+    <spring-cloud.version>2023.0.0</spring-cloud.version>
+    <mylearn-common.version>0.0.1-SNAPSHOT</mylearn-common.version>
+    <lombok.version>1.18.30</lombok.version>
+  </properties>
+  <dependencies>
+    <!-- 1. Spring Cloud Gateway -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-gateway</artifactId>
+    </dependency>
+
+    <!-- 2. WebClient (Reactive) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
+
+    <!-- 3. Common Library (for Auth DTOs) -->
+    <dependency>
+      <groupId>com.mylearn</groupId>
+      <artifactId>my-learn-common</artifactId>
+      <version>${mylearn-common.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>2.44.3</version>
+
+        <configuration>
+          <java>
+            <!-- Uses Google Java Format -->
+            <googleJavaFormat />
+
+            <!-- Optional: remove unused imports -->
+            <removeUnusedImports />
+          </java>
+        </configuration>
+
+        <executions>
+          <execution>
+            <goals>
+              <!-- Fails build if code is not formatted -->
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/huucuong-unn/my-learn-common</url>
+    </repository>
+  </repositories>
+
+</project>
